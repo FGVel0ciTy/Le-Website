@@ -1,0 +1,82 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: Comfortaa;
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+body, html {
+  height: 100%;
+}
+
+.home {
+  position: fixed;
+  right: 1%;
+  height: 5%;
+  top: 1%;
+}
+
+.home img {
+  max-width:100%;
+  max-height:100%;
+  filter: invert();
+}
+
+.home img:hover {
+  filter: sepia();
+}
+
+.main-div {
+  height: 100%;
+  background: url("../images/87851.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.info {
+  background-color: rgb(0, 0, 0, .7);
+  padding: 50px 50px;
+  margin: 50px 25%;
+}
+
+#main-title {
+  font: normal 500% Comfortaa;
+  padding-top: 6%;
+  text-shadow: 2px 2px rgb(0, 0, 0, .3);
+}
+
+#main-title-desc {
+  padding-top: .25%;
+  font: normal 150% Comfortaa;
+  text-shadow: 1px 1px rgb(0, 0, 0, .2);
+}
+
+#main-nav ul {
+  text-align: right;
+  list-style: none;
+  font-size: 1rem;
+}
+
+#main-nav a {
+  transition: background-color .75s ease;
+  padding: 20px 50px;
+  float: right;
+}
+
+#main-nav a:hover {
+  transition: background-color .15s ease;
+  background-color: rgb(0, 0, 0, .1);
+}
+
+#about-div h1 {
+  font: normal 2.5rem Comfortaa;
+}
+
+.paragraph p {
+  padding: 10px;
+  font-size: 1rem;
+}
