@@ -1,6 +1,7 @@
 * {
   margin: 0px;
   padding: 0px;
+  border: 0px;
   box-sizing: border-box;
   font-family: Comfortaa;
   text-decoration: none;
@@ -31,20 +32,6 @@ body, html {
   filter: none;
 }
 
-.home {
-  right: 50%;
-  position: fixed;
-  height: 5%;
-  top: .5%;
-  transform: translate(50%);
-}
-
-.home img {
-  max-width:100%;
-  max-height:100%;
-  filter: invert();
-}
-
 .home img:hover {
   filter: sepia();
 }
@@ -62,33 +49,46 @@ body, html {
   margin: 75px 25%;
 }
 
+.nav-text:hover {
+  transition: background-color .15s ease;
+  background-color: rgb(0, 0, 0, .1);
+}
+
+.nav-text {
+  transition: background-color .75s ease;
+  padding: 20px 50px;
+  float: right;
+}
+
+.home {
+  margin: .5% 1%;
+  float: right;
+  height: 50px;
+  width: 50px;
+}
+
+.home img {
+  max-width: 100%;
+  max-height: 100%;
+  filter: invert();
+}
+
 #main-title {
   font: normal 500% Comfortaa;
   padding-top: 6%;
-  text-shadow: 2px 2px rgb(0, 0, 0, .3);
+  text-shadow: 3px 3px 3px rgb(0, 0, 0, .4);
 }
 
 #main-title-desc {
   padding-top: .25%;
   font: normal 150% Comfortaa;
-  text-shadow: 1px 1px rgb(0, 0, 0, .2);
+  text-shadow: 1.5px 1.5px rgb(0, 0, 0, .3);
 }
 
 #main-nav ul {
   text-align: right;
   list-style: none;
   font-size: 1rem;
-}
-
-#main-nav a {
-  transition: background-color .75s ease;
-  padding: 20px 50px;
-  float: right;
-}
-
-#main-nav a:hover {
-  transition: background-color .15s ease;
-  background-color: rgb(0, 0, 0, .1);
 }
 
 #about-div h1 {
