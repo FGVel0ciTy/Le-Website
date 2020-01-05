@@ -42,6 +42,10 @@ footer {
   font: inherit;
 }
 
+.link:hover {
+  color: #ff9a52;
+}
+
 .paragraph p, h1, h2, h3 {
   padding: 10px;
 }
