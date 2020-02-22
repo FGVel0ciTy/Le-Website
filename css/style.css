@@ -16,11 +16,6 @@ a:hover {
   color: orange;
 }
 
-body, html {
-  height: 100%;
-  width: 100%;
-}
-
 .shell {
   height: 100%;
   width: 100%;
@@ -28,6 +23,11 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
   overflow: auto;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
 }
 
 nav {
@@ -171,50 +171,18 @@ nav {
   text-shadow: 3px 3px 3px rgb(0, 0, 0, .5);
 }
 
-.main-title h1 span {
-  position: absolute;
-  display: block;
-  top: 70%;
-  left: -100%;
-  width: 100%;
-  height: 8px;
-  background: linear-gradient(90deg, transparent, white);
-  border-radius: 5px;
-}
-
-.main-title h1:hover span {
-  left: 100%;
-  transition: 1s;
-}
-
 .main-title h3 {
   font-size: 2rem;
   text-shadow: 2px 2px 2px rgb(0, 0, 0, .75);
 }
 
-.main-title h3 span {
-  position: absolute;
-  display: block;
-  top: 98%;
-  left: 100%;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, white, transparent);
-  border-radius: 5px;
-}
-
-.main-title h3:hover span {
-  left: -100%;
-  transition: .8s;
-}
-
 .main-div {
   background-color: rgb(0, 0, 0, .6);
   text-align: center;
-  width: 65%;
+  width: 75%;
   margin: 0 auto;
   position: relative;
-  top: 15%;
+  top: 10%;
 }
 
 .main-div .title {
@@ -253,36 +221,66 @@ nav {
   padding: 10px;
 }
 
-.burger {
-  float: right;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  top: 50%;
-  transform: translateY(-60%);
-  padding: 0 20px;
-  display: none;
-}
-
-.burger div {
-  width: 25px;
-  height: 3px;
-  margin: 3px;
-  background-color: white;
-}
-
-@media screen and (max-width: 900px) {
-  .nav-links {
-    position: absolute;
-    right: 0;
+@media screen and (max-width: 925px) {
+  .project {
+    display: flex;
     flex-direction: column;
-    background-color: rgb(0, 0, 0, .25);
-    top: 40vh;
+    padding: 15px 0;
+  }
+
+  .project-title {
+    width: 100%;
+  }
+  
+  .project-desc {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .footer-space {
+    height: 225px;
+  }
+  
+  a:hover {
+    color: #FF549C;
+  }
+
+  .social-links {
+    float: none;
+    justify-content: center;
+  }
+
+  .social-links li {
+    width: 50%;
+  }
+
+  .social-links li:nth-child(1) img {
+    float: left;
+  }
+
+  .social-links li:nth-child(2) img {
+    float: right;
+  }
+
+  .social-links li img:hover {
+    transform: scale(1);
+    filter: invert(0);
+  }
+
+  .nav-links {
+    position: fixed;
+    width: 100%;
+    background-color: rgb(255,120,180);
+    justify-content: center;
+    top: 94vh;
   }
 
   .nav-links li {
-    padding: 0 35px;
-    height: 20vh;
+    height: 12vh;
+    width: 25%;
+    text-align: center;
+    padding: 0;
   }
   
   .nav-links li a {
@@ -299,10 +297,9 @@ nav {
   
   .nav-links li a:hover {
     transform: scale(1);
-    color: orange;
     position: relative;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-55%);
   }
   
   .nav-links li .current {
@@ -310,7 +307,35 @@ nav {
     transform: scale(1);
     position: relative;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-55%);
   }
-  
+
+  .main-title h1 {
+    font-size: 3.5rem;
+  }
+
+  .main-title h3 {
+    font-size: 1.25rem;
+  }
+
+  .main-div {
+    width: 95%;
+  }
+
+  .main-div .title {
+    font-size: 2rem;
+  }
+
+  .main-div .info p {
+    padding: 5px 15px;
+  }
+
+  .main-div .info .about-me {
+    font-size: 1.25rem;
+  }
+
+  .info a {
+    display: inline-block;
+    width: 100%;
+  }
 }
