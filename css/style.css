@@ -274,7 +274,7 @@ nav {
     background-color: rgb(255,120,180);
     justify-content: center;
     top: auto;
-    bottom: 0;
+    bottom: -6vh;
   }
 
   .nav-links li {
