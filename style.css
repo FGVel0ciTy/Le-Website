@@ -10,6 +10,14 @@ a {
     color: white;
 }
 
+br {
+    line-height: 150%;
+}
+
+img {
+    display: block;
+}
+
 canvas {
     z-index: -100;
     position: absolute;
@@ -75,24 +83,24 @@ nav a:hover {
 }
 
 main {
-    width: 65%;
+    width: 75%;
 }
 
 main section:nth-child(1) {
-    height: 80vh;
+    min-height: 75vh;
 }
 
 main section {
     display: flex;
-    height: 100vh;
     flex-wrap: wrap;
-    position: relative;
+    min-height: 100vh;
     justify-content: center;
     align-items: center;
 }
 
 main section img {
     width: 20rem;
+    padding: 2rem;
     animation: white-image-glow 3s ease-in-out infinite alternate,
         floating 5s ease-in-out infinite;
 }
@@ -102,7 +110,8 @@ main section:nth-child(2) img {
 }
 
 main section div {
-    padding: 0 50px
+    padding: 0;
+    max-width: 35rem;
 }
 
 main section h1 {
