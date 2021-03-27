@@ -1,0 +1,142 @@
+:root {
+    --footer-height: 2.5rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: white;
+}
+
+canvas {
+    z-index: -100;
+    position: absolute;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    color: white;
+    background-color: black;
+
+    font-family: "Open Sans", sans-serif;
+}
+
+header {
+    width: 75%;
+    padding: 2% 0%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-around;
+}
+
+header #brand {
+    display: flex;
+    align-items: baseline;
+    animation: white-text-glow 2s ease-in-out infinite alternate;
+}
+
+header #brand .main {
+    font-size: 2.5rem;
+}
+
+header #brand .sub {
+    padding-left: 10px;
+    font-size: 0.85rem;
+}
+
+header nav {
+    display: flex;
+}
+
+nav a {
+    float: left;
+    color: grey;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+nav a.active {
+    color: white;
+}
+
+nav a:hover {
+    color: white;
+}
+
+main {
+    width: 65%;
+}
+
+main section:nth-child(1) {
+    height: 80vh;
+}
+
+main section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+main section img {
+    width: 20rem;
+    animation: white-image-glow 3s ease-in-out infinite alternate,
+        floating 5s ease-in-out infinite;
+}
+
+main section:nth-child(2) img {
+    animation-delay: -2.5s;
+}
+
+main section div {
+    padding: 0 50px
+}
+
+main section h1 {
+    font-size: 3.5rem;
+    text-shadow: 0 0 0.2em rgba(255, 255, 255, 0.75);
+}
+
+footer {
+    font-size: small;
+    text-align: center;
+    height: var(--footer-height);
+}
+
+@keyframes white-text-glow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.75);
+    } to {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.75);
+    }
+}
+
+@keyframes white-image-glow {
+    from {
+        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.5));
+    } to {
+        filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.5));
+    }
+}
+
+@keyframes floating {
+    0% {
+        transform: translate(0,  0px);
+    } 50%  {
+        transform: translate(0, 10px);
+    } 100% {
+        transform: translate(0, 0px);
+    }
+}
