@@ -84,10 +84,11 @@ main section:nth-child(1) {
 
 main section {
     display: flex;
+    height: 100vh;
     flex-wrap: wrap;
+    position: relative;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 main section img {
