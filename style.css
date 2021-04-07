@@ -39,6 +39,7 @@ body {
 }
 
 header {
+    position: absolute;
     width: 75%;
     padding: 2% 0%;
     display: flex;
@@ -84,10 +85,6 @@ nav a:hover {
 
 main {
     width: 75%;
-}
-
-main section:nth-child(1) {
-    min-height: 75vh;
 }
 
 main section {
