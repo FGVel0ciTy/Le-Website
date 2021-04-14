@@ -1,7 +1,7 @@
 (() => {
     // Global Variables
     let stars = [];
-    const fps = 60;
+    const fps = 30;
     const canvas = document.getElementById("starfield");
     const context = canvas.getContext("2d");
 
@@ -59,11 +59,13 @@
             const y = Math.random() * canvas.offsetHeight;
             stars.push(createStar(x, y, radius, opacity, context));
         }
+
+        canvas.style.animation = "fadeInAnimation ease 3s";
         update();
     }
 
     // Initializes stars and attaches proper listeners
-    init();
+    window.addEventListener("load", init);
     window.setInterval(update, 1000 / fps);
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", event => {
