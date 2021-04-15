@@ -13,7 +13,7 @@
             draw: function() {
                 this.change = this.opacity >= 1 ? -1
                     : this.opacity <= 0 ? 1 : this.change;
-                this.opacity += this.change * Math.random() / 100;
+                this.opacity += this.change * Math.random() / 50;
 
                 this.context.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
                 this.context.beginPath();
@@ -39,8 +39,9 @@
     // Calculates and draws simple parallax effect
     let parallax = movement => {
         stars.forEach(star => {
-            star.x += movement.x * Math.random() / 200;
-            star.y += movement.y * Math.random() / 100;
+            let random = Math.random() / 75;
+            star.x += random * movement.x;
+            star.y += 2 * random * movement.y;
         });
     }
 
@@ -49,7 +50,7 @@
         canvas.width = document.body.clientWidth;
         canvas.height = document.body.clientHeight;
 
-        const starCount = Math.floor(canvas.width * canvas.height / 2500);
+        const starCount = Math.floor(canvas.width * canvas.height / 2000);
         stars = [];
 
         for (var i = 0; i < starCount; i++) {
