@@ -1,4 +1,4 @@
 # le-website
 My simple portfolio website @ [kvietcong.netlify.app/](kvietcong.netlify.app)
 
-This site is also hosted on the IPFS! Find it [here](https://ipfs.io/ipfs/QmfC5S63duX9DG5d3r3dGNTukt4Rn2t6aAy2fFJuYEfKKo) (Link may not be the latest version)
+This site is also hosted on the IPFS! Find it [here](https://ipfs.io/ipfs/Qme4WMU2T94mctPmQ8ps5e5RCqtXtjmEFyroo5UN73RqBp) (Link may not be the latest version)
