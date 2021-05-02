@@ -4,16 +4,17 @@
     const fps = 30;
     const canvas = document.getElementById("starfield");
     const context = canvas.getContext("2d");
+    const starDensity = 1 / 2000; // Stars per pixel^2
 
     // Star constructor
-    let createStar = (x, y, radius, opacity, context) => {
+    const createStar = (x, y, radius, opacity, context) => {
         return {
             x, y, radius, opacity, context,
             change: Math.random() > .5 ? 1 : -1,
             draw: function() {
                 this.change = this.opacity >= 1 ? -1
                     : this.opacity <= 0 ? 1 : this.change;
-                this.opacity += this.change * Math.random() / 50;
+                this.opacity += this.change * Math.random() / 55;
 
                 this.context.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
                 this.context.beginPath();
@@ -24,33 +25,33 @@
     }
 
     // Resizes the canvas and re-initializes the stars
-    let resize = function() {
+    const resize = function() {
         canvas.width = document.body.clientWidth;
         canvas.height = document.body.clientHeight;
         init();
     }
 
     // General update function
-    let update = () => {
+    const update = () => {
         context.clearRect(0, 0, canvas.width, canvas.height);
         stars.forEach(star => star.draw());
     }
 
     // Calculates and draws simple parallax effect
-    let parallax = movement => {
+    const parallax = movement => {
         stars.forEach(star => {
-            let random = Math.random() / 75;
+            const random = Math.random() / 135;
             star.x += random * movement.x;
-            star.y += 2 * random * movement.y;
+            star.y += 1.5 * random * movement.y;
         });
     }
 
     // Initializes a new set of stars
-    let init = () => {
+    const init = () => {
         canvas.width = document.body.clientWidth;
         canvas.height = document.body.clientHeight;
 
-        const starCount = Math.floor(canvas.width * canvas.height / 2000);
+        const starCount = Math.floor(canvas.width * canvas.height * starDensity);
         stars = [];
 
         for (var i = 0; i < starCount; i++) {
