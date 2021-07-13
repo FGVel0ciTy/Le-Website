@@ -4,18 +4,18 @@
     const fps = 30;
     const canvas = document.getElementById("starfield");
     const context = canvas.getContext("2d");
-    const starDensity = 1 / 2000; // Stars per pixel^2
+    const starDensity = 1 / 2000; // Stars per square pixel
 
     // Star constructor
-    const createStar = (x, y, radius, opacity, context) => {
+    const createStar = x => y => radius => opacity => context => {
+        // Randomized initial state if star starts glowing or fading
+        const initialChange = Math.random() > .5 ? 1 : -1;
         return {
             x, y, radius, opacity, context,
-            change: Math.random() > .5 ? 1 : -1,
-            draw: function() {
-                this.change = this.opacity >= 1 ? -1
-                    : this.opacity <= 0 ? 1 : this.change;
+            change: initialChange,
+            update: function() {
+                this.change *= (this.opacity >= 1 || this.opacity <= 0) ? -1 : 1;
                 this.opacity += this.change * Math.random() / 55;
-
                 this.context.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
                 this.context.beginPath();
                 this.context.arc(this.x, this.y, radius, 0, 360);
@@ -25,7 +25,7 @@
     }
 
     // Resizes the canvas and re-initializes the stars
-    const resize = function() {
+    const resize = () => {
         canvas.width = document.body.clientWidth;
         canvas.height = document.body.clientHeight;
         init();
@@ -34,7 +34,7 @@
     // General update function
     const update = () => {
         context.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(star => star.draw());
+        stars.forEach(star => star.update());
     }
 
     // Calculates and draws simple parallax effect
@@ -54,14 +54,13 @@
         const starCount = Math.floor(canvas.width * canvas.height * starDensity);
         stars = [];
 
-        for (var i = 0; i < starCount; i++) {
+        for (let i = 0; i < starCount; i++) {
             const opacity = Math.random();
             const radius = 1.25 - Math.random();
             const x = Math.random() * canvas.offsetWidth;
             const y = Math.random() * canvas.offsetHeight;
-            stars.push(createStar(x, y, radius, opacity, context));
+            stars.push(createStar(x)(y)(radius)(opacity)(context));
         }
-
         canvas.style.animation = "fadeInAnimation ease 3s";
         update();
     }
@@ -81,7 +80,6 @@
     document.querySelectorAll("a[href^='#']").forEach(anchor => {
         anchor.addEventListener("click", event => {
             event.preventDefault();
-
             document.querySelector(anchor.getAttribute("href")).scrollIntoView({
                 behavior: "smooth"
             });
