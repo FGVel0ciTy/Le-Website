@@ -19,7 +19,7 @@ const starDensity = 1 / 2000;
     * @param context - Drawing context
 */
 const createStar = (x, y, radius, opacity, context) => {
-    // Randomized initial state if star starts glowing or fading
+    /** Randomized initial state if star starts glowing or fading */
     const initialChange = Math.random() > .5 ? 1 : -1;
     return {
         x, y, radius, opacity, context,
