@@ -9,6 +9,8 @@ const canvas = document.getElementById("starfield");
 const context = canvas.getContext("2d");
 /** Stars per square pixel */
 const starDensity = 1 / 2000;
+/** Flicker rate */
+const flickerRate = 3;
 
 /**
     * Star Constructor
@@ -26,7 +28,7 @@ const createStar = (x, y, radius, opacity, context) => {
         change: initialChange,
         update: function() {
             this.change *= (this.opacity >= 1 || this.opacity <= 0) ? -1 : 1;
-            this.opacity += this.change * Math.random() / 55;
+            this.opacity += this.change * Math.random() / 100 * flickerRate;
             this.context.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
             this.context.beginPath();
             this.context.arc(this.x, this.y, radius, 0, 360);

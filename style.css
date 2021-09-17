@@ -1,5 +1,5 @@
 :root {
-    --footer-height: 2.5rem;
+    --footer-height: 3.5rem;
 }
 
 * {
@@ -181,7 +181,7 @@ main section h1 {
 footer {
     font-size: small;
     text-align: center;
-    height: var(--footer-height);
+    padding: 25px 0;
 }
 
 @keyframes white-text-glow {
