@@ -29,35 +29,39 @@ const randomBinomial = (min, max, skew) => {
 }
 
 const Star = {
-    create: (x, y, radius, opacity, change) => ({
-        x, y, radius, opacity, change
+    create: (
+        x, y,
+        radius, opacity,
+        change,
+        xMultiplier = Math.max(0.75, Math.random() + 0.3),
+        yMultiplier = Math.max(0.75, Math.random() + 0.3),
+    ) => ({
+        x, y, radius, opacity, change,
+        xMultiplier, yMultiplier
     }),
-    clone: star =>
-        Star.create(star.x, star.y, star.radius, star.opacity, star.change),
+    clone: star => ({...star}),
     draw: (star, isForced = false) => {
         if (!isForced && !Star.isInView(star)) return star;
         context.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
 
         context.beginPath(); {
             context.arc(star.x, star.y, star.radius * 3, 0, 360);
-        } context.fill();
 
-        context.beginPath(); {
-            context.moveTo(star.x - star.radius , star.y);
-            context.lineTo(star.x, star.y + star.radius * 15);
-            context.lineTo(star.x + star.radius , star.y);
+            context.moveTo(star.x - star.radius, star.y);
+            context.lineTo(star.x, star.y - star.radius * 15 * star.yMultiplier);
+            context.lineTo(star.x + star.radius, star.y);
 
-            context.moveTo(star.x - star.radius , star.y);
-            context.lineTo(star.x, star.y - star.radius * 15);
-            context.lineTo(star.x + star.radius , star.y);
-
-            context.moveTo(star.x, star.y - star.radius );
-            context.lineTo(star.x - star.radius * 15, star.y);
-            context.lineTo(star.x, star.y + star.radius );
-
-            context.moveTo(star.x, star.y - star.radius );
-            context.lineTo(star.x + star.radius * 15, star.y);
+            context.moveTo(star.x, star.y - star.radius);
+            context.lineTo(star.x + star.radius * 15 * star.xMultiplier, star.y);
             context.lineTo(star.x, star.y + star.radius);
+
+            context.moveTo(star.x + star.radius, star.y);
+            context.lineTo(star.x, star.y + star.radius * 15 * star.yMultiplier);
+            context.lineTo(star.x - star.radius, star.y);
+
+            context.moveTo(star.x, star.y + star.radius);
+            context.lineTo(star.x - star.radius * 15 * star.xMultiplier, star.y);
+            context.lineTo(star.x, star.y - star.radius);
         } context.fill();
 
         return star;
@@ -79,9 +83,9 @@ const Star = {
     },
     isInView: star => {
         const buffer = 100;
-        return star.y - star.radius * 20 + buffer > window.scrollY
-            && star.y + star.radius * 20 - buffer
-                < window.scrollY + document.documentElement.clientHeight;
+        return (star.y - (star.radius * 2) + buffer) > window.scrollY
+            && (star.y + (star.radius * 2) - buffer)
+               < (window.scrollY + document.documentElement.clientHeight);
     },
 };
 
@@ -160,7 +164,7 @@ const init = () => {
     for (let i = 0; i < starCount; i++) {
         const opacity = Math.random();
         // const radius = 3 * Math.random() * Math.random();
-        const radius = randomBinomial(0.32, 8, 5);
+        const radius = randomBinomial(0.32, 4, 5);
         const x = Math.random() * canvas.offsetWidth;
         const y = Math.random() * canvas.offsetHeight;
 

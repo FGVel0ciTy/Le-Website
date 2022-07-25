@@ -175,14 +175,14 @@ main section:nth-child(3) img {
 
 .info {
     padding: 10px;
-    background-color: rgb(0, 0, 0, 0.1);
+    background-color: rgb(0, 0, 0, 0.2);
     max-width: 35rem;
     border-radius: 15px;
     transition: background-color 0.3s ease-in-out;
 }
 
 .info:hover {
-    background-color: rgb(0, 0, 0, 0.3);
+    background-color: rgb(0, 0, 0, 0.4);
 }
 
 .info > * {
