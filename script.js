@@ -123,7 +123,7 @@ const drawBackground = () => {
     for (let i = 0; i < circs; i++) {
         const x0 = rands[i][0] * canvas.width;
         const y0 = rands[i][1] * canvas.height;
-        const r0 = rands[i][2] * 100 + 50;
+        const r0 = rands[i][2] * 100 + 50 * (canvas.width * canvas.height / 50000000);
 
         const x1 = x0 + rands[i][1] * x0 / 50;
         const y1 = y0 + rands[i][1] * y0 / 50;
