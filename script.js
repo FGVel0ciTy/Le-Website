@@ -2,13 +2,13 @@
 /** Array of all stars on the canvas */
 let stars = [];
 /** Amount of updates per second */
-const ups = 30;
+const updatesPerSecond = 12;
 /** Reference to the canvas that the starfield is drawn on */
 const canvas = document.getElementById("starfield");
 /** The canvas context for drawing */
 const context = canvas.getContext("2d");
 /** Stars per square pixel */
-const starDensity = 1 / 10_000;
+const starDensity = 1 / 64_000;
 /** Flicker rate */
 const flickerRate = 2;
 
@@ -36,18 +36,18 @@ const Star = {
         x, y,
         radius, opacity,
         change,
-        xMultiplier = Math.max(0.75, Math.random() + 0.3),
-        yMultiplier = Math.max(0.75, Math.random() + 0.3),
+        xMultiplier = randomBinomial(0.3, 4, 2),
+        yMultiplier = randomBinomial(0.3, 4, 2),
     ) => ({
         x, y, radius, opacity, change,
         xMultiplier, yMultiplier
     }),
-    clone: star => ({...star}),
+    clone: star => ({ ...star }),
     draw: (star, isForced = false) => {
         if (!isForced && !Star.isInView(star)) return star;
-        bufferContext.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
 
         bufferContext.beginPath(); {
+            bufferContext.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
             bufferContext.arc(star.x, star.y, star.radius * 3, 0, 360);
 
             if (star.radius > 0.3) {
@@ -69,19 +69,26 @@ const Star = {
             }
         } bufferContext.fill();
 
+
+        bufferContext.beginPath(); {
+            bufferContext.fillStyle = `rgba(255, 255, 255, ${star.opacity * 0.1})`;
+            bufferContext.arc(star.x, star.y, star.radius * 10, 0, 360);
+        } bufferContext.fill();
+
         return star;
     },
     update: (star, isForced = false) => {
         if (!isForced && !Star.isInView(star)) return star;
-        const newStar = Star.clone(star);
+        const factor = 1 / updatesPerSecond;
+        const newStar = star;
         newStar.change *= (newStar.opacity >= 1 || newStar.opacity <= 0) ? -1 : 1;
-        newStar.opacity += newStar.change * (Math.random() + 0.1) / 100 * flickerRate;
+        newStar.opacity += newStar.change * (Math.random() + 0.1) / 5 * flickerRate * factor;
         return newStar;
     },
     parallax: (star, movement, isForced = false) => {
         if (!isForced && !Star.isInView(star)) return star;
         const random = Math.random() / 175;
-        const newStar = Star.clone(star);
+        const newStar = star;
         newStar.x += random * movement.x;
         newStar.y += 1.5 * random * movement.y;
         return newStar;
@@ -90,15 +97,12 @@ const Star = {
         const buffer = 100;
         return (star.y - (star.radius * 2) + buffer) > window.scrollY
             && (star.y + (star.radius * 2) - buffer)
-               < (window.scrollY + document.documentElement.clientHeight);
+            < (window.scrollY + document.documentElement.clientHeight);
     },
 };
 
 /** General update function */
 const update = () => { stars = stars.map(star => Star.update(star)) };
-
-
-const circs = 20;
 
 // Gives an array from min to max
 const range = (min, max) => {
@@ -109,33 +113,55 @@ const range = (min, max) => {
     return arr;
 }
 
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+const backgroundCanvas = document.createElement("canvas");
+const backgroundContext = backgroundCanvas.getContext("2d");
+const backgroundPosition = {x: 0, y: 0}
 
+const chunk = 32;
+const startHue = 215;
+const endHue = 275;
 
-const rands = range(0, circs).map(_ => range(0, 3).map(__ => Math.random()));
+const backgroundInit = () => {
+    const blobs = [];
+    const { width, height } = backgroundCanvas;
 
-// METABALLS?
-const drawBackground = () => {
-    for (let i = 0; i < circs; i++) {
-        const x0 = rands[i][0] * bufferCanvas.width;
-        const y0 = rands[i][1] * bufferCanvas.height;
-        const r0 = rands[i][2] * 100 + 50 * (bufferCanvas.width * bufferCanvas.height / 50000000);
+    const totalBlobs = Math.round(Math.sqrt(width * height) / 72);
+    const rands = range(0, totalBlobs).map(_ => range(0, 3).map(__ => Math.random()));
 
-        const x1 = x0 + rands[i][1] * x0 / 50;
-        const y1 = y0 + rands[i][1] * y0 / 50;
-        const r1 = r0 + rands[i][3] * 500 + 500;
-
-        const gradient = bufferContext.createRadialGradient(x0, y0, r0, x1, y1, r1);
-        gradient.addColorStop(0.0, "rgba(128, 0, 128, 0.2)");
-        gradient.addColorStop(clamp(0.8 * rands[i][0] + Math.sin(new Date().getTime() / 50000) / 2, 0.10, 0.7), "rgba(25, 25, 112, 0.5)");
-        gradient.addColorStop(0.75, "rgba(25, 25, 112, 0.25)");
-        gradient.addColorStop(0.90, "rgba(25, 25, 112, 0.125)");
-        gradient.addColorStop(1.0, "rgba(25, 25, 112, 0.0)");
-        bufferContext.fillStyle = gradient;
-        bufferContext.beginPath(); {
-            bufferContext.arc(x0, y0, r1, 0, Math.PI * 2);
-        } bufferContext.fill();
+    for (let i = 0; i < totalBlobs; i++) {
+        const x = rands[i][0] * width;
+        const y = rands[i][1] * height;
+        const r = rands[i][2] * 1600 + 50 * (width * height / 50000000);
+        const blob = { x, y, r };
+        blobs.push(blob)
     }
+
+    for (let x = 0; x < width; x += chunk) {
+        for (let y = 0; y < height; y += chunk) {
+            let sum = 0;
+            for (const blob of blobs) {
+                const xdif = x - blob.x;
+                const ydif = y - blob.y;
+                const distance = Math.sqrt((xdif * xdif) + (ydif * ydif));
+                let factor = 2;
+                if (distance < 1600) factor *= 1.5;
+                sum += factor * blob.r / distance;
+            }
+            const ratio = Math.min(1, (sum / 150)) * 0.1;
+            if (ratio < 0.04) continue;
+            const hue = (startHue + (y / height) * (endHue - startHue));
+            const fillStyle = `hsl(${hue}, 100%, ${ratio * 100}%)`
+            backgroundContext.fillStyle = fillStyle;
+            backgroundContext.fillRect(x, y, chunk, chunk);
+        }
+    }
+}
+
+const drawBackground = () => {
+    const { filter } = bufferContext;
+    bufferContext.filter = `blur(${chunk * 2}px)`;
+    bufferContext.drawImage(backgroundCanvas, backgroundPosition.x, backgroundPosition.y);
+    bufferContext.filter = filter;
 }
 
 const draw = () => {
@@ -155,12 +181,20 @@ const draw = () => {
 /** Calculates and draws simple parallax effect */
 const parallax = movement => {
     stars = stars.map(star => Star.parallax(star, movement));
+
+    const random = Math.random() / 175;
+    backgroundPosition.x += movement.x * random;
+    backgroundPosition.y += movement.y * random;
 }
 
 /** Initializes a new set of stars */
 const init = () => {
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
+
+    backgroundCanvas.width = canvas.width;
+    backgroundCanvas.height = canvas.height;
+    backgroundInit();
 
     const starCount = Math.floor(canvas.width * canvas.height * starDensity);
     stars = [];
@@ -183,7 +217,7 @@ const init = () => {
 
 // Initializes stars and attaches proper listeners
 window.addEventListener("load", init);
-window.setInterval(update, 1000 / ups);
+window.setInterval(update, 1000 / updatesPerSecond);
 window.requestAnimationFrame(draw);
 window.addEventListener("resize", init);
 window.addEventListener("mousemove", event => {
